@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - TechShop{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Finalizeaza comanda</h2>
+
+{% if items %}
+<div class="row">
+    <!-- Rezumat comanda -->
+    <div class="col-md-5 mb-4">
+        <h5>Rezumat comanda</h5>
+        <table class="table table-sm table-bordered">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Produs</th>
+                    <th>Cant.</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.qty }}</td>
+                    <td>{{ "%.2f"|format(item.subtotal) }} RON</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr class="table-dark">
+                    <td colspan="2"><strong>Total</strong></td>
+                    <td><strong>{{ "%.2f"|format(total) }} RON</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <!-- Formular date client -->
+    <div class="col-md-7">
+        <h5>Datele tale</h5>
+        <form method="POST" action="{{ url_for('checkout') }}">
+            <div class="mb-3">
+                <label class="form-label">Nume complet</label>
+                <input type="text" name="full_name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Telefon</label>
+                <input type="text" name="phone" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Adresa de livrare</label>
+                <textarea name="address" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Metoda de plata</label>
+                <select name="payment_method" class="form-select" required>
+                    <option value="card">Card bancar</option>
+                    <option value="bank_transfer">Transfer bancar</option>
+                    <option value="cash">Cash (ramburs)</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Plaseaza comanda</button>
+        </form>
+    </div>
+</div>
+
+{% else %}
+<div class="alert alert-warning">
+    Cosul tau este gol. <a href="{{ url_for('index') }}">Mergi la produse</a>
+</div>
+{% endif %}
+{% endblock %}

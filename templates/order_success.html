@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Comanda plasata - TechShop{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-4">✅ Comanda plasata!</h1>
+    <p class="lead">Multumim, <strong>{{ order.full_name }}</strong>! Comanda ta a fost inregistrata.</p>
+    <p>Vei primi un email de confirmare la <strong>{{ order.email }}</strong>.</p>
+    <hr>
+    <p class="text-muted">Total platit: <strong>{{ "%.2f"|format(order.total) }} RON</strong>
+       via <strong>{{ order.payment_method }}</strong></p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary mt-3">Inapoi la produse</a>
+</div>
+{% endblock %}

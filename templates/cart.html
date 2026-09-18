@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Cosul meu - TechShop{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Cosul tau</h2>
+
+{% if items %}
+<div class="table-responsive">
+    <table class="table table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Produs</th>
+                <th>Pret unitar</th>
+                <th>Cantitate</th>
+                <th>Subtotal</th>
+                <th>Actiune</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.product.price }} RON</td>
+                <td>{{ item.qty }}</td>
+                <td>{{ "%.2f"|format(item.subtotal) }} RON</td>
+                <td>
+                    <a href="{{ url_for('remove_item', id=item.product.id) }}"
+                       class="btn btn-danger btn-sm">Sterge</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="table-secondary">
+                <td colspan="3"><strong>Total</strong></td>
+                <td colspan="2"><strong>{{ "%.2f"|format(total) }} RON</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="d-flex gap-2 mt-3">
+    <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">Continua cumparaturile</a>
+    <a href="{{ url_for('checkout') }}" class="btn btn-success">Finalizeaza comanda</a>
+</div>
+
+{% else %}
+<div class="alert alert-info">
+    Cosul tau este gol. <a href="{{ url_for('index') }}">Mergi la produse</a>
+</div>
+{% endif %}
+{% endblock %}
